@@ -1,0 +1,10 @@
+source 'https://rubygems.org'
+
+gem 'sinatra', '~> 2.2'
+gem 'activerecord'
+gem 'sinatra-activerecord', '~> 2.0', '>= 2.0.28'
+gem 'pg'
+gem 'dotenv'
+gem 'rake'
+gem 'rack', '~> 2.2'
+gem 'webrick', '~> 1.7'

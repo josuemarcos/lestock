@@ -1,0 +1,26 @@
+#Setup DB for development
+development:
+  adapter: postgresql
+  encoding: unicode
+  database:  <%= ENV['DB_NAME'] %>
+  host: <%= ENV['DB_HOST'] %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASS'] %>
+
+#Setup DB for testing
+test:
+  adapter: postgresql
+  encoding: unicode
+  database:  db_test
+  host: <%= ENV['DB_HOST'] %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASS'] %>
+
+#Setup DB for production
+production:
+  adapter: postgresql
+  encoding: unicode
+  database:  <%= ENV['DB_NAME'] %>
+  host: <%= ENV['DB_HOST'] %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASS'] %>
