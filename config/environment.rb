@@ -1,4 +1,6 @@
 require 'sinatra'
 require 'dotenv/load'
 require 'active_record'
-require 'sinatra-activerecord'
+#require 'sinatra-activerecord'
+require_relative 'app/models/materials-model'
+require_relative 'app/routes/material-router'
