@@ -1,4 +1,4 @@
-class CreateMaterials < ActiveRecord::Migration[8.0]
+class CreateMaterials < ActiveRecord::Migration[7.1]
   def change
     create_table :materials do |t|
       t.string :name
