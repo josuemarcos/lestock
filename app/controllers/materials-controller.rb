@@ -18,11 +18,24 @@ class MaterialController
     result = Material.find_by(id: id)
 
     if result
-      {ok: true, response: result, status: 200}
+      {ok: true, data: result, status: 200}
     else
-      {ok: false, response: "couldn't find material with id: #{id}", status: 404}
+      {ok: false, data: "Material not found!", status: 404}
     end
   rescue StandardError => error
+    { ok: false}
+    return {msg:   "Error: #{error.message}"}.to_json
+  end
+
+  def create_material(material)
+    check_material = Material.find_by(name: material['name'], supplier: material['supplier'])
+    if check_material
+      return {msg: "This material already exist!", data: check_material, status: 422}
+    else
+      new_material = Material.create(material)
+      return {msg: "Material created!", data: new_material, status: 201}
+    end
+    rescue StandardError => error
     { ok: false}
     return {msg:   "Error: #{error.message}"}.to_json
   end

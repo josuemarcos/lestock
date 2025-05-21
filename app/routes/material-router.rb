@@ -8,6 +8,10 @@ class MaterialRouter < Sinatra::Base
     @materials_controller = MaterialController.new
   end
 
+  before do
+    content_type :json
+  end
+
   get '/' do
     @materials_controller.get_all_materials
   end
@@ -15,7 +19,15 @@ class MaterialRouter < Sinatra::Base
   get '/:id' do
     res = @materials_controller.get_material_by_id(params[:id])
     status res[:status].to_json
-    return res[:response].to_json
+    return res[:data].to_json
+  end
+
+  post '/' do
+    payload = JSON.parse(request.body.read)
+    res = @materials_controller.create_material(payload)
+    status res[:status].to_json
+    return res[:msg].to_json, res[:data].to_json
+      
   end
 end
 
