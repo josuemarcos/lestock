@@ -30,13 +30,36 @@ class MaterialController
   def create_material(material)
     check_material = Material.find_by(name: material['name'], supplier: material['supplier'])
     if check_material
-      return {msg: "This material already exist!", data: check_material, status: 422}
+      {msg: "This material already exist!", data: check_material, status: 422}
     else
       new_material = Material.create(material)
-      return {msg: "Material created!", data: new_material, status: 201}
+      {msg: "Material created!", data: new_material, status: 201}
     end
     rescue StandardError => error
     { ok: false}
     return {msg:   "Error: #{error.message}"}.to_json
+  end
+
+  def update_material(id, new_attributes)
+    material = Material.find_by(id: id)
+    if material
+      material.update(new_attributes)
+      {msg: "Material updated!", data: material, status: 200}
+    else
+      {msg: "Material not found!", status: 404}
+    end
+    rescue StandardError => error
+    { ok: false}
+    return {msg:   "Error: #{error.message}"}.to_json
+  end
+
+  def delete_material(id)
+    material = Material.find_by(id: id)
+    if material
+      material.destroy
+      {msg: "Material Deleted!", status: 200}
+    else
+      {msg: "Material not found!", status: 404}
+    end
   end
 end
