@@ -2,6 +2,7 @@ require 'sinatra'
 require_relative '../controllers/materials-controller'
 
 class MaterialRouter < Sinatra::Base
+  
 
   def initialize
     super
@@ -41,6 +42,7 @@ class MaterialRouter < Sinatra::Base
     status res[:status].to_json
     return res[:msg].to_json
   end
+  
 
 end
 
