@@ -29,8 +29,15 @@ class MaterialController
 
   def update_material(id, new_attributes)
     material = Material.find_by(id: id)
+    registered_name = new_attributes['name'] || material.name
+    registered_supplier = new_attributes['supplier'] || material.supplier
+    registered_material = Material.find_by(name: registered_name, supplier: registered_supplier)  #Verify if there's a material with the name and supplier passed saved on the DB
+
+    puts "registered material: #{registered_name}, #{registered_supplier}, #{registered_material.to_json}"
+
     if material
       return {msg: "#{material.errors.full_messages}", status: 422} unless material.update(new_attributes)
+      return {msg: "This material is already registered!", status: 422} if registered_material
       {msg: "Material updated!", data: material, status: 200}
     else
       {msg: "Material not found!", status: 404}
