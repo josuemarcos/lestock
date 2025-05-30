@@ -14,7 +14,10 @@ class MaterialRouter < Sinatra::Base
   end
 
   get '/' do
-    @materials_controller.get_all_materials
+   res = @materials_controller.get_all_materials(params)
+   status res[:status].to_json
+   return res[:data].to_json
+    
   end
   
   get '/:id' do

@@ -3,10 +3,17 @@ require_relative '../models/materials-model'
 
 
 class MaterialController
-  def get_all_materials
+  def get_all_materials(parameters)
     result = Material.all
-    return {msg: "No materials found!"}.to_json unless result
-    return {materials: result}.to_json
+    material = Material.where(name: parameters[:name]).or(Material.where(supplier: parameters[:supplier]))
+    if parameters[:name] || parameters[:supplier]
+      return {data: "Material not found!", status: 404} if material.empty?
+      return {data: material, status: 200}
+    else
+      return {data: "No materials found!", status: 200} unless result
+      return {data: "Wrong query parameter passed!", status: 400} unless parameters.empty?
+      return {data: result, status: 200}
+    end
   end
 
   def get_material_by_id(id)
@@ -33,11 +40,9 @@ class MaterialController
     registered_supplier = new_attributes['supplier'] || material.supplier
     registered_material = Material.find_by(name: registered_name, supplier: registered_supplier)  #Verify if there's a material with the name and supplier passed saved on the DB
 
-    puts "registered material: #{registered_name}, #{registered_supplier}, #{registered_material.to_json}"
-
     if material
+      return {msg: "This material is already registered!", status: 422} if registered_material && registered_material != material
       return {msg: "#{material.errors.full_messages}", status: 422} unless material.update(new_attributes)
-      return {msg: "This material is already registered!", status: 422} if registered_material
       {msg: "Material updated!", data: material, status: 200}
     else
       {msg: "Material not found!", status: 404}
