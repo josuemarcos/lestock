@@ -5,8 +5,8 @@ require_relative '../models/materials-model'
 class MaterialController
   def get_all_materials(parameters)
     result = Material.all
-    material = Material.where(name: parameters[:name]).or(Material.where(supplier: parameters[:supplier]))
-    if parameters[:name] || parameters[:supplier]
+    material = Material.where(name: parameters[:name])
+    if parameters[:name] 
       return {data: "Material not found!", status: 404} if material.empty?
       return {data: material, status: 200}
     else
@@ -23,7 +23,7 @@ class MaterialController
   end
 
   def create_material(material)
-    check_material = Material.find_by(name: material['name'], supplier: material['supplier'])
+    check_material = Material.find_by(name: material['name'])
     if check_material
       {msg: "This material already exist!", data: check_material, status: 422}
     else
@@ -37,8 +37,8 @@ class MaterialController
   def update_material(id, new_attributes)
     material = Material.find_by(id: id)
     registered_name = new_attributes['name'] || material.name
-    registered_supplier = new_attributes['supplier'] || material.supplier
-    registered_material = Material.find_by(name: registered_name, supplier: registered_supplier)  #Verify if there's a material with the name and supplier passed saved on the DB
+    registered_supplier_id = new_attributes['supplier_id'] || material.supplier_id
+    registered_material = Material.find_by(name: registered_name, supplier_id: registered_supplier_id)  #Verify if there's a material with the name and supplier_name passed saved on the DB
 
     if material
       return {msg: "This material is already registered!", status: 422} if registered_material && registered_material != material

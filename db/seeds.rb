@@ -1,23 +1,20 @@
 materials = [
   {
     'name': 'cimento',
-    'supplier': 'loja1',
     'stock': '200,5',
-    'metric_unit': 'g'
+    'metric_unit': 'g',
     'supplier_id': '1'
   },
   {
     'name': 'cera',
-    'supplier': 'loja2',
     'stock': '125,8',
-    'metric_unit': 'g'
+    'metric_unit': 'g',
     'supplier_id': '2'
   },
   {
     'name': 'tinta',
-    'supplier': 'loja3',
     'stock': '80,35',
-    'metric_unit': 'ml'
+    'metric_unit': 'ml',
     'supplier_id': '3'
   }
 ]
@@ -43,7 +40,7 @@ suppliers = [
   }
 ]
 
-supplier.each do |supplier|
+suppliers.each do |supplier|
   Supplier.create(supplier)
 end
 

@@ -16,11 +16,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_31_202651) do
 
   create_table "materials", force: :cascade do |t|
     t.string "name"
-    t.string "supplier"
     t.float "stock"
+    t.string "metric_unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "metric_unit"
     t.bigint "supplier_id", null: false
     t.index ["supplier_id"], name: "index_materials_on_supplier_id"
   end
