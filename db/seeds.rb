@@ -24,19 +24,22 @@ suppliers = [
     name: "supplier 01",
     description: "this supplier sells A",
     phone_number: "123",
-    social_media: "supplier@1"
+    social_media: "supplier@1",
+    address: "address_supplier_01"
   },
   {
     name: "supplier 02",
     description: "this supplier sells B",
     phone_number: "456",
-    social_media: "supplier@2"
+    social_media: "supplier@2",
+    address: "address_supplier_02"
   },
   {
     name: "supplier 03",
     description: "this supplier sells C",
     phone_number: "789",
-    social_media: "supplier@3"
+    social_media: "supplier@3",
+    address: "address_supplier_03"
   }
 ]
 

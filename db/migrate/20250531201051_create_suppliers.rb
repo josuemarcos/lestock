@@ -5,6 +5,7 @@ class CreateSuppliers < ActiveRecord::Migration[7.1]
       t.string :description
       t.string :phone_number
       t.string :social_media
+      t.string :address
       t.timestamps
     end
   end
