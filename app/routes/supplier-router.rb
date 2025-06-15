@@ -16,5 +16,11 @@ get '/' do
   return res[:data].to_json
 end
 
+get '/:id' do
+  res = @supplier_controller.get_supplier_by_id(params[:id])
+  status res[:status].to_json
+  return res[:data].to_json
+end
+
 end
 

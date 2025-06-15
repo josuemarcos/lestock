@@ -9,4 +9,14 @@ class SupplierController
       {data: result}
     end
   end
+
+  def get_supplier_by_id(id)
+    supplier = Supplier.find_by(id: id)
+    if supplier
+      {data: supplier, status: 200}
+    else
+      {data: "Supplier not found!", status: 404}
+    end
+    
+  end
 end
