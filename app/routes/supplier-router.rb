@@ -22,5 +22,12 @@ get '/:id' do
   return res[:data].to_json
 end
 
+post '/' do
+  payload = JSON.parse(request.body.read)
+  res = @supplier_controller.create_supplier(payload)
+  status res[:status].to_json
+  return res[:msg].to_json, res[:data].to_json
+end
+
 end
 

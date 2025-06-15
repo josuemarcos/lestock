@@ -17,6 +17,12 @@ class SupplierController
     else
       {data: "Supplier not found!", status: 404}
     end
-    
+  end
+
+  def create_supplier(supplier)
+    new_supplier = Supplier.new(supplier)
+    return {msg: "#{new_supplier.errors.full_messages}", status: 422} unless new_supplier.valid?
+    new_supplier.save
+    {msg: "Supplier registered!", data: new_supplier, status: 200}
   end
 end

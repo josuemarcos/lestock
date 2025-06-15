@@ -1,3 +1,3 @@
 class Supplier < ActiveRecord::Base
-  has_many :materials
+  validates :name, presence: true, uniqueness: true
 end
