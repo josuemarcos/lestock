@@ -36,7 +36,7 @@ class MaterialController
 
   def update_material(id, new_attributes)
     material = Material.find_by(id: id)
-    registered_name = new_attributes['name'] || material.name
+    #registered_name = new_attributes['name'] || material.name
     registered_supplier_id = new_attributes['supplier_id'] || material.supplier_id
     registered_material = Material.find_by(name: registered_name, supplier_id: registered_supplier_id)  #Verify if there's a material with the name and supplier_name passed saved on the DB
 
