@@ -36,5 +36,11 @@ patch '/:id' do
   return res[:msg].to_json, res[:data].to_json
 end
 
+delete '/:id' do
+  res = @supplier_controller.delete_supplier(params[:id])
+  status res[:status].to_json
+  return res[:msg].to_json
+end
+
 end
 

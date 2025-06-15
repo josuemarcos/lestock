@@ -35,4 +35,14 @@ class SupplierController
       {msg: "Supplier not found!", status: 404}
     end
   end
+
+  def delete_supplier(id) 
+    supplier = Supplier.find_by(id:id)
+    if supplier
+      supplier.destroy
+      {msg: "Supplier deleted!", status: 200}
+    else
+      {msg: "Supplier not found!", status: 404}
+    end
+  end
 end
