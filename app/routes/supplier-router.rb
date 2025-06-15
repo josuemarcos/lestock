@@ -13,7 +13,6 @@ end
 
 get '/' do
   res = @supplier_controller.get_all_suppliers(params)
-  status res[:status].to_json
   return res[:data].to_json
 end
 

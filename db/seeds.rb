@@ -1,27 +1,3 @@
-materials = [
-  {
-    amount: "200",
-    price: 25,
-    price_per_amount: 0.125,
-    material_type_id: 2,
-    supplier_id: 1
-  },
-  {
-    amount: "20000",
-    price: 50,
-    price_per_amount: 0.0025,
-    material_type_id: 1,
-    supplier_id: 2
-  },
-  {
-    amount: "1000",
-    price: 20,
-    price_per_amount: 0.02,
-    material_type_id: 3,
-    supplier_id: 3
-  }
-]
-
 suppliers = [
   {
     name: "supplier 01",
@@ -69,9 +45,5 @@ material_types.each do |material_type|
   MaterialType.create(material_type)
 end
 
-materials.each do |attrs|
-  mat = Material.create(attrs)
-  puts "Created? #{mat.persisted?}, Name: #{mat.name.inspect}"
-end
 
 
