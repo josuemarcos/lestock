@@ -29,5 +29,12 @@ post '/' do
   return res[:msg].to_json, res[:data].to_json
 end
 
+patch '/:id' do
+  payload = JSON.parse(request.body.read)
+  res = @supplier_controller.update_supplier(params[:id], payload)
+  status res[:status].to_json
+  return res[:msg].to_json, res[:data].to_json
+end
+
 end
 

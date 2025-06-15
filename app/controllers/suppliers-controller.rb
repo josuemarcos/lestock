@@ -25,4 +25,14 @@ class SupplierController
     new_supplier.save
     {msg: "Supplier registered!", data: new_supplier, status: 200}
   end
+
+  def update_supplier(id, attributes)
+    supplier = Supplier.find_by(id:id)
+    if supplier
+      return {msg: "#{supplier.errors.full_messages}", status: 422} unless supplier.update(attributes)
+      {msg: "Supplier updated!", data: supplier, status: 200}
+    else
+      {msg: "Supplier not found!", status: 404}
+    end
+  end
 end
