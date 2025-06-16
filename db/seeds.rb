@@ -37,6 +37,8 @@ material_types = [
   }
 ]
 
+puts '------Seeding the database-------'
+
 suppliers.each do |supplier|
   Supplier.create(supplier)
 end
@@ -45,5 +47,6 @@ material_types.each do |material_type|
   MaterialType.create(material_type)
 end
 
+puts '------Database seeded!-------'
 
 
