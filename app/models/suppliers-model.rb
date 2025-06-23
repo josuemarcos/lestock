@@ -1,13 +1,7 @@
 class Supplier < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
-
-
-
-
-
   #Business Logic Methods
-
   def get_all_suppliers(params = {})
     params[:name] ? result = Supplier.where(
       "name LIKE ?", "%" + Supplier.sanitize_sql_like(params[:name]) + "%"
@@ -32,7 +26,7 @@ class Supplier < ActiveRecord::Base
     new_supplier = Supplier.new(supplier)
     return {msg: "#{new_supplier.errors.full_messages}", status: 422} unless new_supplier.valid?
     new_supplier.save
-    {msg: "Supplier registered!", data: new_supplier, status: 200}
+    {msg: "Supplier registered!", data: new_supplier, status: 201}
   end
 
   def update_supplier(id, attributes)
