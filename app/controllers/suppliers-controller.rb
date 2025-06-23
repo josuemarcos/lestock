@@ -1,48 +1,45 @@
-class SupplierController
-  def get_all_suppliers(params = {})
-    params[:name] ? result = Supplier.where(
-      "name LIKE ?", "%" + Supplier.sanitize_sql_like(params[:name]) + "%"
-    ) : result = Supplier.all 
-    if result.empty?
-      {data: "No suppliers registered!"}
-    else
-      {data: result}
-    end
+require 'sinatra'
+require_relative '../models/suppliers-model'
+
+class SupplierController < Sinatra::Base
+  def initialize
+    super
+    @supplier = Supplier.new
   end
 
-  def get_supplier_by_id(id)
-    supplier = Supplier.find_by(id: id)
-    if supplier
-      {data: supplier, status: 200}
-    else
-      {data: "Supplier not found!", status: 404}
-    end
-  end
+before do
+  content_type :json
+end
 
-  def create_supplier(supplier)
-    new_supplier = Supplier.new(supplier)
-    return {msg: "#{new_supplier.errors.full_messages}", status: 422} unless new_supplier.valid?
-    new_supplier.save
-    {msg: "Supplier registered!", data: new_supplier, status: 200}
-  end
+get '/' do
+  res = @supplier.get_all_suppliers(params)
+  return res[:data].to_json
+end
 
-  def update_supplier(id, attributes)
-    supplier = Supplier.find_by(id:id)
-    if supplier
-      return {msg: "#{supplier.errors.full_messages}", status: 422} unless supplier.update(attributes)
-      {msg: "Supplier updated!", data: supplier, status: 200}
-    else
-      {msg: "Supplier not found!", status: 404}
-    end
-  end
+get '/:id' do
+  res = @supplier.get_supplier_by_id(params[:id])
+  status res[:status].to_json
+  return res[:data].to_json
+end
 
-  def delete_supplier(id) 
-    supplier = Supplier.find_by(id:id)
-    if supplier
-      supplier.destroy
-      {msg: "Supplier deleted!", status: 200}
-    else
-      {msg: "Supplier not found!", status: 404}
-    end
-  end
+post '/' do
+  payload = JSON.parse(request.body.read)
+  res = @supplier.create_supplier(payload)
+  status res[:status].to_json
+  return res[:msg].to_json, res[:data].to_json
+end
+
+patch '/:id' do
+  payload = JSON.parse(request.body.read)
+  res = @supplier.update_supplier(params[:id], payload)
+  status res[:status].to_json
+  return res[:msg].to_json, res[:data].to_json
+end
+
+delete '/:id' do
+  res = @supplier.delete_supplier(params[:id])
+  status res[:status].to_json
+  return res[:msg].to_json
+end
+
 end

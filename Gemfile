@@ -11,6 +11,4 @@ gem 'webrick', '~> 1.9.1'
 gem 'rackup', '~> 2.1'
 gem 'rspec'
 
-group :test do
-  gem 'database_cleaner-active_record'
-end
+
