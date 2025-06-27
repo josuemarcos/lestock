@@ -17,7 +17,7 @@ test:
   password: <%= ENV['DB_PASS'] %>
 
 #Setup DB for production
-deployment:
+production:
   adapter: postgresql
   url: <%= ENV['DATABASE_URL'] %>
  
