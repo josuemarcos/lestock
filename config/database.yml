@@ -17,10 +17,7 @@ test:
   password: <%= ENV['DB_PASS'] %>
 
 #Setup DB for production
-production:
+deployment:
   adapter: postgresql
-  encoding: unicode
-  database:  <%= ENV['DB_NAME'] %>
-  host: <%= ENV['DB_HOST'] %>
-  username: <%= ENV['DB_USER'] %>
-  password: <%= ENV['DB_PASS'] %>
+  url: <%= ENV['DATABASE_URL'] %>
+ 
