@@ -10,8 +10,8 @@ describe Supplier do
 
   it 'gets an supplier from db' do
     result = supplier.get_supplier_by_id(1)
-    expect(result).to have_key(:status)
-    expect(result[:status]).to eq(200)
+    expect(result).to have_key(:ok)
+    expect(result[:ok]).to be true
     expect(result).to have_key(:data)
     expect(result[:data]).to be_truthy
     expect(result[:data][:name]).to eq('supplier 01')
@@ -19,10 +19,10 @@ describe Supplier do
 
   it 'attempts to get a non-registered supplier from db' do
     result = supplier.get_supplier_by_id(100)
-    expect(result).to have_key(:status)
-    expect(result[:status]).to eq(404)
-    expect(result).to have_key(:data)
-    expect(result[:data]).to eq('Supplier not found!')
+    expect(result).to have_key(:ok)
+    expect(result[:ok]).to be false
+    expect(result).to have_key(:msg)
+    expect(result[:msg]).to eq('Supplier not found!')
   end
 
   it 'gets all suppliers from db' do
@@ -53,10 +53,8 @@ describe Supplier do
     social_media: "test",
     address: "address_test"}
     result = supplier.create_supplier(supplier_sample)
-    expect(result).to have_key(:status)
-    expect(result[:status]).to eq(201)
-    expect(result).to have_key(:msg)
-    expect(result[:msg]).to eq('Supplier registered!')
+    expect(result).to have_key(:ok)
+    expect(result[:ok]).to be true
     expect(result).to have_key(:data)
     expect(result[:data]).to be_truthy
     expect(result[:data][:name]).to eq('test supplier')
@@ -73,8 +71,8 @@ describe Supplier do
     social_media: "test",
     address: "address_test"}
     result = supplier.create_supplier(supplier_sample)
-    expect(result).to have_key(:status)
-    expect(result[:status]).to eq(422)
+    expect(result).to have_key(:ok)
+    expect(result[:ok]).to be false
     expect(result).to have_key(:msg)
     expect(result[:data]).to be_falsy
     expect(result[:msg]).to eq("[\"Name can't be blank\"]")
@@ -88,8 +86,8 @@ describe Supplier do
     social_media: "test",
     address: "address_test"}
     result = supplier.create_supplier(supplier_sample)
-    expect(result).to have_key(:status)
-    expect(result[:status]).to eq(422)
+    expect(result).to have_key(:ok)
+    expect(result[:ok]).to be false
     expect(result).to have_key(:msg)
     expect(result[:data]).to be_falsy
     expect(result[:msg]).to eq("[\"Name has already been taken\"]")
@@ -98,8 +96,8 @@ describe Supplier do
   it 'modify a supplier on the db' do
     supplier_sample = {name: "test supplier"}
     result = supplier.update_supplier(1, supplier_sample)
-    expect(result).to have_key(:status)
-    expect(result[:status]).to eq(200)
+    expect(result).to have_key(:ok)
+    expect(result[:ok]).to be true
     expect(result).to have_key(:data)
     expect(result[:data]).to be_truthy
     expect(result[:data][:name]).to eq('test supplier')
@@ -112,8 +110,8 @@ describe Supplier do
   it 'attempts to set a supplier name to blank' do
     supplier_sample = {name: ""}
     result = supplier.update_supplier(1, supplier_sample)
-    expect(result).to have_key(:status)
-    expect(result[:status]).to eq(422)
+    expect(result).to have_key(:ok)
+    expect(result[:ok]).to be true
     expect(result).to have_key(:msg)
     expect(result[:data]).to be_falsy
     expect(result[:msg]).to eq("[\"Name can't be blank\"]")
@@ -122,8 +120,8 @@ describe Supplier do
   it 'attempts to update a supplier not registered' do
     supplier_sample = {name: "test supplier"}
     result = supplier.update_supplier(4, supplier_sample)
-    expect(result).to have_key(:status)
-    expect(result[:status]).to eq(404)
+    expect(result).to have_key(:ok)
+    expect(result[:ok]).to be false
     expect(result).to have_key(:msg)
     expect(result[:data]).to be_falsy
     expect(result[:msg]).to eq("Supplier not found!")
@@ -132,18 +130,17 @@ describe Supplier do
   it 'delete a supplier from the db' do
     result = supplier.delete_supplier(1)
     confirmation = supplier.get_supplier_by_id(1)
-    expect(result).to have_key(:status)
-    expect(result[:status]).to eq(200)
+    expect(result).to have_key(:ok)
+    expect(result[:ok]).to be true
     expect(result).to have_key(:msg)
     expect(result[:msg]).to eq("Supplier deleted!")
-    expect(confirmation).to have_key(:data)
-    expect(confirmation[:data]).to eq('Supplier not found!')
+    expect(confirmation[:msg]).to eq('Supplier not found!')
   end
 
    it 'attempts to delete a supplier not registered' do
     result = supplier.delete_supplier(4)
-    expect(result).to have_key(:status)
-    expect(result[:status]).to eq(404)
+    expect(result).to have_key(:ok)
+    expect(result[:ok]).to be false
     expect(result).to have_key(:msg)
     expect(result[:msg]).to eq("Supplier not found!")
   end

@@ -16,26 +16,26 @@ class Supplier < ActiveRecord::Base
   def get_supplier_by_id(id)
     supplier = Supplier.find_by(id: id)
     if supplier
-      {data: supplier, status: 200}
+      {data: supplier, ok: true}
     else
-      {data: "Supplier not found!", status: 404}
+      {msg: "Supplier not found!", ok: false}
     end
   end
 
   def create_supplier(supplier)
     new_supplier = Supplier.new(supplier)
-    return {msg: "#{new_supplier.errors.full_messages}", status: 422} unless new_supplier.valid?
+    return {msg: "#{new_supplier.errors.full_messages}", ok: false} unless new_supplier.valid?
     new_supplier.save
-    {msg: "Supplier registered!", data: new_supplier, status: 201}
+    {data: new_supplier, ok: true}
   end
 
   def update_supplier(id, attributes)
     supplier = Supplier.find_by(id:id)
     if supplier
-      return {msg: "#{supplier.errors.full_messages}", status: 422} unless supplier.update(attributes)
-      {msg: "Supplier updated!", data: supplier, status: 200}
+      return {msg: "#{supplier.errors.full_messages}", ok: true} unless supplier.update(attributes)
+      {data: supplier, ok: true}
     else
-      {msg: "Supplier not found!", status: 404}
+      {msg: "Supplier not found!", ok: false}
     end
   end
 
@@ -43,9 +43,9 @@ class Supplier < ActiveRecord::Base
     supplier = Supplier.find_by(id:id)
     if supplier
       supplier.destroy
-      {msg: "Supplier deleted!", status: 200}
+      {msg: "Supplier deleted!", ok: true}
     else
-      {msg: "Supplier not found!", status: 404}
+      {msg: "Supplier not found!", ok: false}
     end
   end
 end

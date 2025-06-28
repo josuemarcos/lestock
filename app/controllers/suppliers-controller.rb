@@ -18,28 +18,53 @@ end
 
 get '/:id' do
   res = @supplier.get_supplier_by_id(params[:id])
-  status res[:status].to_json
-  return res[:data].to_json
+  if res[:ok]
+    status 200
+    {supplier: res[:data]}.to_json
+  else
+    status 404
+    {msg: res[:msg]}.to_json
+  end
 end
 
 post '/' do
   payload = JSON.parse(request.body.read)
   res = @supplier.create_supplier(payload)
-  status res[:status].to_json
-  return res[:msg].to_json, res[:data].to_json
+  if res[:ok]
+    status 201
+    {supplier: res[:data]}.to_json
+  else
+    status 422
+    {msg: res[:msg]}.to_json
+  end
 end
 
 patch '/:id' do
   payload = JSON.parse(request.body.read)
   res = @supplier.update_supplier(params[:id], payload)
-  status res[:status].to_json
-  return res[:msg].to_json, res[:data].to_json
+  if res[:ok]
+    if res[:data]
+      status 200
+      {supplier: res[:data]}.to_json
+    else
+      status 422
+      {msg: res[:msg]}.to_json
+    end
+  else
+    status 404
+    {msg: res[:msg]}.to_json
+  end
 end
 
 delete '/:id' do
   res = @supplier.delete_supplier(params[:id])
-  status res[:status].to_json
-  return res[:msg].to_json
+  if res[:ok]
+    status 200
+    {msg: res[:msg]}.to_json
+  else
+    status 404
+    {msg: res[:msg]}.to_json
+  end
 end
 
 end
