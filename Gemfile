@@ -10,5 +10,6 @@ gem 'rack', '~> 3.1', '>= 3.1.14'
 gem 'webrick', '~> 1.9.1'
 gem 'rackup', '~> 2.1'
 gem 'rspec'
+gem 'rack-test'
 
 

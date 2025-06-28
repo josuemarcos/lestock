@@ -34,3 +34,4 @@
 
 /config/credentials/production.key
 /.ruby-version
+/commands.txt
