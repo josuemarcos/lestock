@@ -1,15 +1,15 @@
 require 'dotenv'
-require_relative '../app/models/suppliers-model'
+require_relative '../app/services/suppliers-service'
 
-describe Supplier do
-  let(:supplier) {Supplier.new}
+describe SuppliersService do
+  let(:supplierservice) {SuppliersService.new}
 
   before(:all) do
     require_relative '../config/environment'
   end
 
   it 'gets an supplier from db' do
-    result = supplier.get_supplier_by_id(1)
+    result = supplierservice.get_supplier_by_id(1)
     expect(result).to have_key(:ok)
     expect(result[:ok]).to be true
     expect(result).to have_key(:data)
@@ -18,7 +18,7 @@ describe Supplier do
   end
 
   it 'attempts to get a non-registered supplier from db' do
-    result = supplier.get_supplier_by_id(100)
+    result = supplierservice.get_supplier_by_id(100)
     expect(result).to have_key(:ok)
     expect(result[:ok]).to be false
     expect(result).to have_key(:msg)
@@ -26,21 +26,21 @@ describe Supplier do
   end
 
   it 'gets all suppliers from db' do
-    result = supplier.get_all_suppliers
+    result = supplierservice.get_all_suppliers
     expect(result).to have_key(:data)
     expect(result[:data]).to be_truthy
     expect(result[:data].length).to eq(3)
   end
 
   it 'gets a supplier passing a string as query parameter' do
-    result = supplier.get_all_suppliers(name: '2')
+    result = supplierservice.get_all_suppliers(name: '2')
     expect(result).to have_key(:data)
     expect(result[:data]).to be_truthy
     expect(result[:data]).to include(have_attributes(name: 'supplier 02'))
   end
 
   it 'attempts to get a non registered supplier passing a string as query parameter' do
-    result = supplier.get_all_suppliers(name: 'XPTO')
+    result = supplierservice.get_all_suppliers(name: 'XPTO')
     expect(result).to have_key(:data)
     expect(result[:data]).to be_truthy
     expect(result[:data]).to eq('No suppliers registered!')
@@ -52,7 +52,7 @@ describe Supplier do
     phone_number: "123",
     social_media: "test",
     address: "address_test"}
-    result = supplier.create_supplier(supplier_sample)
+    result = supplierservice.create_supplier(supplier_sample)
     expect(result).to have_key(:ok)
     expect(result[:ok]).to be true
     expect(result).to have_key(:data)
@@ -70,7 +70,7 @@ describe Supplier do
     phone_number: "123",
     social_media: "test",
     address: "address_test"}
-    result = supplier.create_supplier(supplier_sample)
+    result = supplierservice.create_supplier(supplier_sample)
     expect(result).to have_key(:ok)
     expect(result[:ok]).to be false
     expect(result).to have_key(:msg)
@@ -85,7 +85,7 @@ describe Supplier do
     phone_number: "123",
     social_media: "test",
     address: "address_test"}
-    result = supplier.create_supplier(supplier_sample)
+    result = supplierservice.create_supplier(supplier_sample)
     expect(result).to have_key(:ok)
     expect(result[:ok]).to be false
     expect(result).to have_key(:msg)
@@ -95,7 +95,7 @@ describe Supplier do
 
   it 'modify a supplier on the db' do
     supplier_sample = {name: "test supplier"}
-    result = supplier.update_supplier(1, supplier_sample)
+    result = supplierservice.update_supplier(1, supplier_sample)
     expect(result).to have_key(:ok)
     expect(result[:ok]).to be true
     expect(result).to have_key(:data)
@@ -109,7 +109,7 @@ describe Supplier do
 
   it 'attempts to set a supplier name to blank' do
     supplier_sample = {name: ""}
-    result = supplier.update_supplier(1, supplier_sample)
+    result = supplierservice.update_supplier(1, supplier_sample)
     expect(result).to have_key(:ok)
     expect(result[:ok]).to be true
     expect(result).to have_key(:msg)
@@ -119,7 +119,7 @@ describe Supplier do
 
   it 'attempts to update a supplier not registered' do
     supplier_sample = {name: "test supplier"}
-    result = supplier.update_supplier(4, supplier_sample)
+    result = supplierservice.update_supplier(4, supplier_sample)
     expect(result).to have_key(:ok)
     expect(result[:ok]).to be false
     expect(result).to have_key(:msg)
@@ -128,8 +128,8 @@ describe Supplier do
   end
 
   it 'delete a supplier from the db' do
-    result = supplier.delete_supplier(1)
-    confirmation = supplier.get_supplier_by_id(1)
+    result = supplierservice.delete_supplier(1)
+    confirmation = supplierservice.get_supplier_by_id(1)
     expect(result).to have_key(:ok)
     expect(result[:ok]).to be true
     expect(result).to have_key(:msg)
@@ -138,7 +138,7 @@ describe Supplier do
   end
 
    it 'attempts to delete a supplier not registered' do
-    result = supplier.delete_supplier(4)
+    result = supplierservice.delete_supplier(4)
     expect(result).to have_key(:ok)
     expect(result[:ok]).to be false
     expect(result).to have_key(:msg)
