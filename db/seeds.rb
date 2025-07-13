@@ -37,6 +37,30 @@ material_types = [
   }
 ]
 
+materials = [
+  {
+    amount: 5000,
+    price: 20,
+    description: "this is the first material",
+    supplier_id: 1,
+    material_type_id: 1
+  },
+  {
+    amount: 200,
+    price: 10,
+    description: "this is the second material",
+    supplier_id: 2,
+    material_type_id: 2
+  },
+  {
+    amount: 1000,
+    price: 12,
+    description: "this is the third material",
+    supplier_id: 3,
+    material_type_id: 3
+  }
+]
+
 puts '------Seeding the database-------'
 
 suppliers.each do |supplier|
@@ -45,6 +69,10 @@ end
 
 material_types.each do |material_type|
   MaterialType.create(material_type)
+end
+
+materials.each do |material|
+  Material.create(material)
 end
 
 puts '------Database seeded!-------'

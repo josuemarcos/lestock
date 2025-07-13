@@ -7,3 +7,7 @@ end
 map "/material-types" do
   run MaterialTypeController.new
 end
+
+map "/materials" do
+  run MaterialController.new
+end

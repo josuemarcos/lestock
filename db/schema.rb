@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_14_205349) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_11_231053) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_14_205349) do
     t.string "metric_unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "materials", force: :cascade do |t|
+    t.float "amount"
+    t.float "price"
+    t.virtual "price_per_amount", type: :float, as: "(price / NULLIF(amount, (0)::double precision))", stored: true
+    t.string "description"
+    t.bigint "material_type_id"
+    t.bigint "supplier_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["material_type_id"], name: "index_materials_on_material_type_id"
+    t.index ["supplier_id"], name: "index_materials_on_supplier_id"
   end
 
   create_table "suppliers", force: :cascade do |t|
@@ -31,4 +44,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_14_205349) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "materials", "material_types"
+  add_foreign_key "materials", "suppliers"
 end
