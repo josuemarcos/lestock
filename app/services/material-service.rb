@@ -1,4 +1,5 @@
 class MaterialService
+
   def get_all_materials(params = {})
     if params[:supplier_name]
       fetch_material_by_supplier(params[:supplier_name])
@@ -7,8 +8,25 @@ class MaterialService
     else
       fetch_all_materials
     end
-
   end
+
+  def get_material_by_id(id)
+    material = Material.find_by(id: id)
+    if material
+      {data: material, ok: true}
+    else
+      {msg: "Material not found!", ok: false}
+    end
+  end
+
+  def create_material(material)
+    new_material = Material.new(material)
+    return {msg: "#{new_material.errors.full_messages}", ok: false} unless new_material.valid?
+    new_material.save
+    {data: new_material, ok: true}
+  end
+
+
 
  
 
